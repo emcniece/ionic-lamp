@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope) {
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
+.controller('CoresCtrl', function($scope, Friends) {
   $scope.friends = Friends.all();
 })
 

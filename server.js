@@ -10,6 +10,10 @@ app.all('*', function(req, res, next) {
     next();
 });
 
+livereload = require('livereload');
+server = livereload.createServer();
+server.watch(__dirname + "/www");
+
 // API Routes
 // app.get('/blah', routeHandler);
 

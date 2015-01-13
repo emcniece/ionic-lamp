@@ -1,5 +1,25 @@
-<ion-view title="Dashboard">
+<ion-view title="Ionic Lamp">
   <ion-content class="padding">
-    <h1>Dash</h1>
+
+    <div class="list">
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-lightbulb"></i>
+        Status: Online
+      </div>
+
+      <div class="item range range-positive">
+        <i class="icon ion-ios-lightbulb-outline"></i>
+        <input type="range" name="brightness" min="0" max="255" value="100">
+        <i class="icon ion-ios-lightbulb"></i>
+      </div>
+
+      <button class="button button-full button-balanced">
+        Toggle Lamp
+      </button>
+
+    </div>
+
+
   </ion-content>
 </ion-view>
