@@ -1,16 +1,22 @@
 <ion-view title="Ionic Lamp">
   <ion-content class="padding">
 
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
     <div class="list">
 
       <div class="item item-icon-left">
         <i class="icon ion-ios-lightbulb"></i>
-        Status: Online
+        Status: <span class="balanced" ng-if="data.status">Online</span> <span class="assertive" ng-if="!data.status">Offline</span>
+        <p ng-if="data.name">Core: {{data.name}}</p>
       </div>
 
       <div class="item range range-positive">
         <i class="icon ion-ios-lightbulb-outline"></i>
-        <input type="range" name="brightness" min="0" max="255" value="128" ng-model="data.brightness">
+        <input type="range" name="brightness" min="0" max="255" ng-model="data.brightness" on-release="onBrightnessChange()">
         <i class="icon ion-ios-lightbulb"></i>
       </div>
 

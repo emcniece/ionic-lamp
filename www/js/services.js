@@ -6,6 +6,8 @@ angular.module('starter.services', [])
 =========================================*/
 .service('SparkAPI', function($localStorage, $http, $q, $ionicLoading){
   return {
+    'apiUrl': 'https://api.spark.io/v1/',
+
     fetch: fetch
   };
 
