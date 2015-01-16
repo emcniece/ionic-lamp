@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,6 +18,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    // Load default settings and variables
+    $localStorage.$default({
+      'apiUrl':   "https://api.spark.io/v1/",
+      'device':   "53ff71066667574807372567",
+      'acToken':  "91a7db82bb5d95a1f76b4b30c163093a9fe84937",
+    });
+
   });
 })
 
@@ -44,25 +52,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         'tab-dash': {
           templateUrl: 'templates/tab-dash.html',
           controller: 'DashCtrl'
-        }
-      }
-    })
-
-    .state('tab.cores', {
-      url: '/cores',
-      views: {
-        'tab-cores': {
-          templateUrl: 'templates/tab-cores.html',
-          controller: 'CoresCtrl'
-        }
-      }
-    })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
-      views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
         }
       }
     })

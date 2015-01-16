@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngStorage'])
 
-.controller('DashCtrl', function($scope, $timeout, $http, $ionicLoading) {
+.controller('DashCtrl', function($scope, $localStorage, $timeout, $http, $ionicLoading, Lamp) {
 
 
     $scope.data = {
@@ -8,75 +8,61 @@ angular.module('starter.controllers', [])
       'brightness' : '0',
 
       // Core details
-      'apiUrl': 'https://api.spark.io/v1/',
-      'device': '53ff71066667574807372567',
+      //'apiUrl': 'https://api.spark.io/v1/',
+      //'device': '53ff71066667574807372567',
       'name' : false,
-      'acToken': '91a7db82bb5d95a1f76b4b30c163093a9fe84937'
+      //'acToken': '91a7db82bb5d95a1f76b4b30c163093a9fe84937'
     };
 
     $scope.onBrightnessChange = function(){
 
-      $ionicLoading.show({
-        template: 'Loading...'
-      });
-
-      $http({
-          method: 'POST',
-          url: $scope.data.apiUrl+"devices/" + $scope.data.device + "/adjustLamp",
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          transformRequest: function(obj) {
-              var str = [];
-              for(var p in obj)
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-              return str.join("&");
-          },
-          data: {
-              access_token: $scope.data.acToken,
-              args: $scope.data.brightness
-          }
-        }).success(function (data) {
-            console.log('Response success: ', data);
-
-        }).finally(function(){
-
-          $ionicLoading.hide();
-        });
+      Lamp.setBrightness($scope.data.brightness);
 
     }; // onBrightnessChange
 
     $scope.doRefresh = function() {
 
       // Check Brightness
-       url = $scope.data.apiUrl + "devices/"+$scope.data.device+"/brightness?access_token="+$scope.data.acToken;
-       $http.get( url )
-       .success(function(data) {
+      Lamp.getStatus()
+        .success(function(data) {
 
-         if( data.name){
-          $scope.data.brightness = data.result;
-         }
+          if( data.name){
+            $scope.data.name = data.name;
+            $scope.data.status = data.connected;
+          }
 
-       });
+          return false;
+
+        }); // getStatus
+
+      Lamp.getBrightness()
+        .success(function(data){
+
+          if( data.name){
+            $scope.data.brightness = data.result;
+          }
+
+        })
+        .finally(function() {
+          // Stop the ion-refresher from spinning
+          $scope.$broadcast('scroll.refreshComplete');
+        });
 
 
-      var url = $scope.data.apiUrl + "devices/"+$scope.data.device+"?access_token="+$scope.data.acToken;
-
-      $http.get( url )
-       .success(function(data) {
-
-         if( data.name){
-          $scope.data.name = data.name;
-          $scope.data.status = data.connected;
-         }
-
-       })
-       .finally(function() {
-         // Stop the ion-refresher from spinning
-         $scope.$broadcast('scroll.refreshComplete');
-       });
-
-       
 
     }; // doRefresh
+
+    $scope.toggleLamp = function(){
+      var newLevel = 0;
+      if( $scope.data.brightness === 0){
+        newLevel = 255;
+      }
+
+      $scope.data.brightness = Lamp.setBrightness(newLevel);
+
+      return newLevel;
+
+    }; // toggleLamp
 
 })
 
