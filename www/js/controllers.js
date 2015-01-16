@@ -22,7 +22,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
     $scope.doRefresh = function() {
 
-      // Check Brightness
+      // Check status, return promise
       Lamp.getStatus()
         .success(function(data) {
 
@@ -35,6 +35,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
         }); // getStatus
 
+      // Check brightness, return promise
       Lamp.getBrightness()
         .success(function(data){
 
@@ -76,20 +77,12 @@ angular.module('starter.controllers', ['ngStorage'])
 .controller('SettingsCtrl', function($scope, $localStorage) {
 
   $scope.settings = $localStorage;
-  console.log($scope.settings);
 
-    $scope.clearEventData = function(){
-        if( confirm('Cannot undo - clear all core event data?')){
-            $localStorage.events = [];
-            console.log('cleared events', $localStorage);
-        }
-    };
-
-    $scope.clearAllData = function(){
-        if( confirm('Cannot undo - clear all app localstorage data?')){
-            $localStorage.$reset();
-            console.log('cleared', $localStorage);
-        }
-    };
+  $scope.clearAllData = function(){
+      if( confirm('Cannot undo - clear all app localstorage data?')){
+          $localStorage.$reset();
+          console.log('cleared', $localStorage);
+      }
+  };
 
 });
