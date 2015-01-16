@@ -6,7 +6,8 @@
       on-refresh="doRefresh()">
     </ion-refresher>
 
-    <div class="list">
+
+    <div class="list carsd">
 
       <div class="item item-icon-left">
         <i class="icon ion-ios-lightbulb"></i>
@@ -14,19 +15,31 @@
         <p ng-if="data.name">Core: {{data.name}}</p>
       </div>
 
+      <div class="item item-image huge-icon">
+        <span class="icon ion-ios-lightbulb" ng-class="(data.brightness > 0) ? 'energized' : 'test'"></span>
+      </div>
+
       <div class="item range range-positive">
         <i class="icon ion-ios-lightbulb-outline"></i>
         <input type="range" name="brightness" min="0" max="255" ng-model="data.brightness" on-release="onBrightnessChange()">
         <i class="icon ion-ios-lightbulb"></i>
+
+            <p>Brightness: {{data.brightness}}</p>
       </div>
 
-      <button class="button button-full button-balanced" ng-click="toggleLamp()">
-        Toggle Lamp
-      </button>
+      <div class="row item item-divider">
+        <div class="col">
+          <button class="button button-full button-calm" ng-click="bumpBrightness()">Bump by 5</button>
+        </div>
+        <div class="col">
+          <button class="button button-full button-balanced" ng-click="toggleLamp()">Toggle Lamp</button>
+        </div>
+      </div>
+
 
     </div>
 
-    <p>Brightness: {{data.brightness}}</p>
+
 
   </ion-content>
 </ion-view>

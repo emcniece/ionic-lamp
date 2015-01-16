@@ -52,6 +52,12 @@ angular.module('starter.controllers', ['ngStorage'])
 
     }; // doRefresh
 
+    $scope.bumpBrightness = function(){
+      var newLevel = parseInt($scope.data.brightness, 10) + 5;
+      if( newLevel > 255) newLevel = 255;
+      $scope.data.brightness = Lamp.setBrightness( newLevel);
+    };
+
     $scope.toggleLamp = function(){
       var newLevel = 0;
       if( $scope.data.brightness === 0){
@@ -66,13 +72,24 @@ angular.module('starter.controllers', ['ngStorage'])
 
 })
 
-.controller('CoresCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
-})
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
-})
+.controller('SettingsCtrl', function($scope, $localStorage) {
 
-.controller('AccountCtrl', function($scope) {
+  $scope.settings = $localStorage;
+  console.log($scope.settings);
+
+    $scope.clearEventData = function(){
+        if( confirm('Cannot undo - clear all core event data?')){
+            $localStorage.events = [];
+            console.log('cleared events', $localStorage);
+        }
+    };
+
+    $scope.clearAllData = function(){
+        if( confirm('Cannot undo - clear all app localstorage data?')){
+            $localStorage.$reset();
+            console.log('cleared', $localStorage);
+        }
+    };
+
 });
